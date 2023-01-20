@@ -488,7 +488,7 @@ DROP PROCEDURE IF EXISTS ModifDonneeCoordonnees;      #modifier une seule donné
 DELIMITER //
 CREATE PROCEDURE ModifDonneeCoordonnees ( 
 IN id_coordo INT,
-IN num_voie VARCHAR(50)
+IN num_voie INT
 )
 BEGIN
 UPDATE Coordonnees
@@ -934,7 +934,7 @@ DROP PROCEDURE IF EXISTS EditionCommande;     				# edition d'une commande via s
 DELIMITER //
 CREATE PROCEDURE EditionCommande   
 (IN n_cde INT,
-IN date_commande FLOAT)
+IN date_commande INT)
 BEGIN
 SELECT n_commande, date_commande, id_client, id_personnel
 FROM Commande WHERE n_commande=n_cde;
@@ -950,7 +950,7 @@ DROP PROCEDURE IF EXISTS EditionFacture;     				# edition d'une facture via son
 DELIMITER //
 CREATE PROCEDURE EditionFacture  
 (IN id_fact INT,
-IN marge VARCHAR(50))
+IN marge FLOAT)
 BEGIN
 SELECT id_facture, tva, marge, acquittee, id_client, n_commande
 FROM Facture WHERE id_facture=id_fact;
@@ -1022,6 +1022,8 @@ WHILE (Select count(*) FROM participe WHERE id_voyage=id_trip) > 0 do
 END WHILE;   
 END//
 DELIMITER ;
+
+#CALL SuppParticipeVoyage (9);
 
 DROP PROCEDURE IF EXISTS SuppCorrespond;    # procédure de suppression d'une correspondance en fonction de ses id
 DELIMITER //
@@ -1365,7 +1367,7 @@ END WHILE;
 END //
 DELIMITER ;
 
-#CALL SuppPersonnelCascade (1);      #les personnels sont utilisés à chaque fois dans plusieurs commande... donc ça bloque
+#CALL SuppPersonnelCascade (4);      
 #SELECT * FROM Personnel;
 #SELECT * FROM Commande;
 
@@ -1401,5 +1403,5 @@ WHERE id_coordonnees=id_coordo;
 END//
 DELIMITER ;
 
-#CALL SuppCoordonnees (53); #error code : 1242 Subquery returns more than 1 row  # utiliser un group by ?
+#CALL SuppCoordonneesCascade (33);
 #SELECT * FROM Coordonnees;
